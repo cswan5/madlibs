@@ -16,8 +16,7 @@ ui <- fluidPage(
       textInput("noun1", "Enter a noun:", ""),
       textInput("verb", "Enter a verb:", ""),
       textInput("adjective", "Enter an adjective:", ""),
-      textInput("adverb", "Enter an adverb:", ""),
-      actionButton("submit", "Create Story")
+      textInput("adverb", "Enter an adverb:", "")
     ),
     mainPanel(
       h3("Your Mad Libs Story:"),
@@ -27,7 +26,7 @@ ui <- fluidPage(
 )
 
 server <- function(input, output) {
-  story <- eventReactive(input$submit, {
+  story <- reactive({
     generate_story(input$noun1, input$verb, input$adjective, input$adverb)
   })
   output$story <- renderText({
