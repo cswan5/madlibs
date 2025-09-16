@@ -2,13 +2,17 @@ library(shiny)
 library(bslib)
 
 generate_story <- function(noun, verb, adjective, adverb) {
-  glue::glue(
+  story <- glue::glue(
     "
     Once upon a time, there was a {adjective} {noun} who loved to
     {verb} {adverb}. It was the funniest thing ever!
   "
   )
+  cat(story,file=stderr())
+  story
 }
+
+
 
 ui <- page_sidebar(
   title="Mad Libs Game",
@@ -27,12 +31,15 @@ ui <- page_sidebar(
 )
 
 server <- function(input, output) {
+  cat(rep("-",100), file=stderr())
   story <- reactive({
     generate_story(input$noun1, input$verb, input$adjective, input$adverb)
   })
+  cat(rep("-",100),file=stderr())
   output$story <- renderText({
     story()
   })
+  cat(rep("-",100),file=stderr())
 }
 
 shinyApp(ui = ui, server = server)
